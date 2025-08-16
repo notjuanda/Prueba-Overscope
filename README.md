@@ -37,8 +37,6 @@ PORT=5000
 HOST=localhost
 ```
 
-API REST en Flask con autenticación JWT vía cookie HttpOnly, manejo de categorías, productos (con subida de imágenes) y usuarios (registro / login / logout).
-
 ## Tecnologías
 - Python 3.13+
 - Flask
@@ -70,20 +68,7 @@ python -m flask run
 Notas: 
 - El punto de entrada de la app es `app.py`. 
 - Las tablas se crean automaticamente usando `db.create_all()`.
-
-## Autenticación
-- Registro/Login generan JWT con claims `sub`, `email`, `iat`, `exp`.
-- Cookie `access_token` HttpOnly (usar `secure=True` en prod HTTPS).
-- `login_required` valida token de cookie.
-- Logout invalida cookie.
-
-## Usuarios
-| Endpoint | Método | Auth | Descripción |
-|----------|--------|------|-------------|
-| /users/register | POST | No | Registrar usuario |
-| /users/login | POST | No | Login |
-| /users/logout | POST | Sí | Logout |
-
+  
 ## Categorías (requiere login)
 CRUD completo en `/categories`.
 
@@ -96,28 +81,11 @@ CRUD en `/products`, subida de imagen multipart, campo `imagen`.
 ## Errores comunes
 400 validación, 401 auth, 404 no encontrado, 415 tipo contenido, 500 interno.
 
-Listo.
+# Frontend
 
-# Sistema de Gestión de Productos - Frontend
+ejecutar para instalar dependencias: npm install
 
-ejecutar al inciar: npm install
-
-
-Sistema de administración de productos y categorías desarrollado con Angular 20 que implementa arquitectura limpia con autenticación JWT.
-
-## Características
-
-- **Autenticación completa**: Login y registro de usuarios con JWT
-- **Gestión de productos**: CRUD completo
-- **Gestión de categorías**: Sistema de categorización para productos
-- **Filtrado por categorías**: Filtro dinámico de productos por categoría
-- **Interfaz responsive**: Diseño adaptativo para desktop y móvil
-- **Navegación intuitiva**: Header responsive con menú móvil
-- **Arquitectura limpia**: Separación por capas
-- **Interceptor HTTP**: Manejo automático de credenciales
-- **Modales modernas**: Interfaces de usuario limpias y funcionales
-
-## 🛠️ Tecnologías
+## Tecnologías
 
 - **Angular 20.1.6**: Framework principal con sintaxis moderna
 - **TypeScript**: Lenguaje de programación
@@ -140,20 +108,7 @@ node --version
 npm --version
 ```
 
-## Instalación
-
-1. **Clonar el repositorio** (si aplica):
-```bash
-git clone <url-del-repositorio>
-cd frontend
-```
-
-2. **Instalar dependencias**:
-```bash
-npm install
-```
-
-3. **Configurar variables de entorno**:
+1. **Configurar variables de entorno**:
 El proyecto incluye configuración para desarrollo en `src/environments/environment.ts`. Verificar que la URL del backend sea correcta:
 ```typescript
 export const environment = {
@@ -175,107 +130,9 @@ ng serve
 
 La aplicación estará disponible en `http://localhost:4200/`
 
-### Modo Producción
-
-Para construir el proyecto para producción:
-```bash
-npm run build
-# o
-ng build --configuration production
-```
-
-Los archivos compilados se generarán en la carpeta `dist/`
-
-## Estructura del Proyecto
-
-```
-src/
-├── app/
-│   ├── auth/                    # Módulo de autenticación
-│   │   ├── data/               # Implementaciones de repositorios
-│   │   ├── domain/             # Modelos, contratos y casos de uso
-│   │   └── presentation/       # Componentes de UI (login, register)
-│   ├── category/               # Módulo de categorías
-│   │   ├── data/               # Repositorio de categorías
-│   │   ├── domain/             # Lógica de negocio
-│   │   └── presentation/       # Componentes de UI
-│   ├── product/                # Módulo de productos
-│   │   ├── data/               # Repositorio de productos
-│   │   ├── domain/             # Lógica de negocio
-│   │   └── presentation/       # Componentes de UI
-│   ├── core/                   # Funcionalidades compartidas
-│   │   ├── components/         # Componentes reutilizables
-│   │   ├── guards/             # Guards de rutas
-│   │   ├── interceptors/       # Interceptores HTTP
-│   │   └── services/           # Servicios compartidos
-│   └── environments/           # Configuraciones de entorno
-```
-
-## Autenticación
-
-El sistema incluye:
-- **Registro de usuarios**: Formulario con validaciones
-- **Inicio de sesión**: Autenticación con JWT
-- **Protección de rutas**: Guards para páginas privadas
-- **Interceptor automático**: Manejo de tokens en requests
-- **Logout seguro**: Limpieza de sesión
-
 ### Credenciales de Prueba
 No hay datos de prueba, pero se puede registrar directo un usuario nuevo en la interfaz
 ```
-
-## Funcionalidades Principales
-
-### Gestión de Productos
-- ✅ Listar todos los productos en grid responsive
-- ✅ Crear nuevos productos con modal
-- ✅ Editar productos existentes
-- ✅ Eliminar productos con confirmación
-- ✅ Filtrar productos por categoría
-- ✅ Validaciones de formularios
-
-### Gestión de Categorías
-- ✅ Listar categorías en grid
-- ✅ Crear nuevas categorías
-- ✅ Editar categorías existentes
-- ✅ Eliminar categorías con confirmación
-- ✅ Validaciones de formularios
-
-### Navegación
-- ✅ Header responsive con menú móvil
-- ✅ Navegación entre productos y categorías
-- ✅ Estados activos en navegación
-- ✅ Logout desde header
-
-## 🛠Scripts Disponibles
-
-```bash
-npm start          # Inicia servidor de desarrollo
-
-Los demás scripts no hay necesidad de correrlos
-```
-
-## API Integration
-
-El frontend se conecta a una API REST que debe implementar los siguientes endpoints:
-
-### Autenticación
-- `POST /api/auth/login` - Iniciar sesión
-- `POST /api/auth/register` - Registrar usuario
-
-### Productos
-- `GET /api/products` - Listar productos
-- `GET /api/products/:id` - Obtener producto
-- `POST /api/products` - Crear producto
-- `PUT /api/products/:id` - Actualizar producto
-- `DELETE /api/products/:id` - Eliminar producto
-
-### Categorías
-- `GET /api/categories` - Listar categorías
-- `GET /api/categories/:id` - Obtener categoría
-- `POST /api/categories` - Crear categoría
-- `PUT /api/categories/:id` - Actualizar categoría
-- `DELETE /api/categories/:id` - Eliminar categoría
 
 ### Error de CORS
 Si tienes problemas de CORS, asegúrate de que tu frontend corre en el puerto 4200, ese es el puerto que tiene contemplado el back
