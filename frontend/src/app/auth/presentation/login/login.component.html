@@ -1,0 +1,118 @@
+<div class="min-h-screen grid grid-cols-1 md:grid-cols-2">
+    <section class="relative px-8 md:px-20 py-8 md:py-12 min-h-[100svh] flex flex-col justify-center">
+
+        <div class="max-w-md">
+        <h1 class="text-3xl md:text-4xl font-semibold tracking-tight mt-1">Inicia sesión</h1>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" class="max-w-md mt-10 space-y-6">
+        <div class="space-y-1">
+            <label class="block text-sm">E-mail</label>
+            <div class="relative">
+            <input
+                type="email"
+                formControlName="email"
+                class="w-full rounded-xl border px-4 pr-12 py-3 outline-hidden focus:outline-2 focus:outline-(--color-primary)
+                    border-(--color-muted) [ &.ng-touched.ng-invalid ]:border-red-500 bg-white"
+                placeholder="example@email.com"
+                autocomplete="email"
+            />
+            <span class="absolute inset-y-0 right-4 flex items-center text-(--color-text)/50 pointer-events-none">
+                <svg class="block size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 7l9 6 9-6"/>
+                <rect x="3" y="5" width="18" height="14" rx="2" ry="2"/>
+                </svg>
+            </span>
+            </div>
+            @if (form.controls['email'].touched && form.controls['email'].invalid) {
+                <p class="text-red-600 text-xs">
+                    @if (form.controls['email'].errors?.['required']) {
+                        <span>El email es requerido.</span>
+                    }
+                    @if (form.controls['email'].errors?.['email']) {
+                        <span>Formato de email inválido.</span>
+                    }
+                    @if (form.controls['email'].errors?.['maxlength']) {
+                        <span>Máximo 120 caracteres.</span>
+                    }
+                </p>
+            }
+        </div>
+
+        <div class="space-y-1">
+            <label class="block text-sm">Password</label>
+            <div class="relative">
+            <input
+                [type]="hidePassword() ? 'password' : 'text'"
+                formControlName="password"
+                class="w-full rounded-xl border px-4 pr-12 py-3 outline-hidden focus:outline-2 focus:outline-(--color-primary)
+                    border-(--color-muted) [ &.ng-touched.ng-invalid ]:border-red-500 bg-white"
+                placeholder="Tu contraseña"
+                autocomplete="current-password"
+            />
+            <button
+                type="button"
+                (click)="togglePassword()"
+                class="absolute inset-y-0 right-4 flex items-center text-(--color-text)/60 hover:text-(--color-text)"
+                aria-label="Mostrar/Ocultar"
+            >
+                @if (hidePassword()) {
+                    <svg class="block size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                } @else {
+                    <svg class="block size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.77 21.77 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 5c7 0 11 7 11 7a21.8 21.8 0 0 1-3.17 4.49"/>
+                        <path d="M1 1l22 22"/>
+                    </svg>
+                }
+            </button>
+            </div>
+            @if (form.controls['password'].touched && form.controls['password'].invalid) {
+                <p class="text-red-600 text-xs">
+                    @if (form.controls['password'].errors?.['required']) {
+                        <span>La contraseña es requerida.</span>
+                    }
+                    @if (form.controls['password'].errors?.['minlength']) {
+                        <span>Mínimo 6 caracteres.</span>
+                    }
+                    @if (form.controls['password'].errors?.['maxlength']) {
+                        <span>Máximo 128 caracteres.</span>
+                    }
+                </p>
+            }
+        </div>
+
+        @if (error(); as e) {
+            <p class="text-red-600 text-sm">{{ e }}</p>
+        }
+
+        <button
+            type="submit"
+            class="w-full rounded-xl px-4 py-3 text-white bg-(--color-primary) hover:bg-(--color-secondary)
+                disabled:opacity-60 disabled:pointer-events-none transition flex items-center justify-center gap-2"
+            [disabled]="form.invalid || submitting()"
+        >
+            @if (!submitting()) {
+                <span>Ingresar</span>
+            } @else {
+                <svg class="animate-spin size-5" viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                Ingresando…
+            }
+        </button>
+
+        <p class="text-sm text-(--color-text)/70">¿No tienes cuenta?
+            <a class="text-(--color-primary) hover:text-(--color-secondary)" routerLink="/register">Regístrate</a>
+        </p>
+        </form>
+    </section>
+
+    <div class="hidden md:block relative border-l border-(--color-muted)">
+        <div class="absolute inset-0 bg-center bg-cover" style="background-image: url('/images/images.jpg');"></div>
+        <div class="absolute inset-0 bg-linear-to-tr from-(--color-primary)/10 to-(--color-secondary)/20"></div>
+    </div>
+</div>

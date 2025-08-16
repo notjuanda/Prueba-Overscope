@@ -1,0 +1,69 @@
+<div class="relative inline-block">
+    @if (loading()) {
+        <div class="flex items-center px-4 py-2 bg-gray-100 rounded-lg">
+            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+            <span class="ml-2 text-sm text-gray-600">Cargando...</span>
+        </div>
+    } @else {
+        <button
+            (click)="toggleDropdown()"
+            class="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
+            </svg>
+            <span class="text-sm font-medium text-gray-700">{{ getSelectedCategoryName() }}</span>
+            @if (hasActiveFilters) {
+                <span class="ml-2 bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                    1
+                </span>
+            }
+            <svg class="w-4 h-4 text-gray-400 transition-transform duration-200" [class.rotate-180]="isDropdownOpen()" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+
+        @if (isDropdownOpen()) {
+            <div class="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <div class="p-3">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-gray-700">Filtrar por categoría</h3>
+                        @if (hasActiveFilters) {
+                            <button 
+                                (click)="clearFilters()"
+                                class="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                                Limpiar
+                            </button>
+                        }
+                    </div>
+                    
+                    <div class="space-y-1 max-h-48 overflow-y-auto">
+                        <button
+                            (click)="selectCategory(null)"
+                            class="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors duration-150"
+                            [class.bg-blue-50]="selectedCategoryId() === null"
+                            [class.text-blue-700]="selectedCategoryId() === null"
+                            [class.font-medium]="selectedCategoryId() === null">
+                            Todas las categorías
+                        </button>
+                        @for (category of validCategories(); track category.id) {
+                            <button
+                                (click)="selectCategory(category.id)"
+                                class="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors duration-150"
+                                [class.bg-blue-50]="selectedCategoryId() === category.id"
+                                [class.text-blue-700]="selectedCategoryId() === category.id"
+                                [class.font-medium]="selectedCategoryId() === category.id">
+                                {{ category.nombre }}
+                            </button>
+                        }
+                    </div>
+                </div>
+                
+                @if (error()) {
+                    <div class="px-3 pb-3">
+                        <p class="text-xs text-red-600">{{ error() }}</p>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

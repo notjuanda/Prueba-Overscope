@@ -1,0 +1,163 @@
+<app-layout>
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold mb-2" style="color: var(--color-text)">Gestión de Productos</h1>
+            <p style="color: var(--color-text); opacity: 0.8">Administra tu inventario de productos</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div>
+                <app-product-filter
+                    (categoryChanged)="onCategoryFilter($event)">
+                </app-product-filter>
+            </div>
+            
+            <div>
+                <button
+                    (click)="onAddProduct()"
+                    class="btn flex items-center hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Agregar Producto
+                </button>
+            </div>
+        </div>
+
+        @if (loading()) {
+            <div class="flex items-center justify-center py-12">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <span class="ml-3 text-lg text-gray-600">Cargando productos...</span>
+            </div>
+        }
+
+        @if (error()) {
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <div class="flex">
+                    <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div>
+                        <h3 class="text-sm font-medium text-red-800">Error</h3>
+                        <p class="text-sm text-red-700 mt-1">{{ error() }}</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!loading() && !error()) {
+            @if (hasProducts) {
+                <div class="mb-6">
+                    <p class="text-gray-600">
+                        Mostrando {{ filteredProducts().length }} producto(s)
+                        @if (isFiltering) {
+                            <span class="text-blue-600 font-medium">(filtrado de {{ products().length }} total)</span>
+                        }
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    @for (product of filteredProducts(); track product.id) {
+                        <div class="bg-gray-50 rounded-lg shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-200 relative group">
+                            <div class="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                                <button
+                                    (click)="onEditProduct(product)"
+                                    class="p-2 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 backdrop-blur-sm border border-gray-200"
+                                    title="Editar producto">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </button>
+                                <button
+                                    (click)="onDeleteProduct(product)"
+                                    class="p-2 bg-white/90 hover:bg-red-50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 backdrop-blur-sm border border-gray-200"
+                                    title="Eliminar producto">
+                                    <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <div class="aspect-w-16 aspect-h-12 bg-gray-200">
+                                <img 
+                                    [src]="getImageUrl(product.imagen ?? null)" 
+                                    [alt]="product.nombre"
+                                    class="w-full h-48 object-cover"
+                                    onerror="this.src='/images/placeholder-product.png'">
+                            </div>
+                            
+                            <div class="p-4">
+                                <h3 class="font-semibold text-lg mb-2 line-clamp-2" style="color: var(--color-text)">
+                                    {{ product.nombre }}
+                                </h3>
+                                
+                                @if (product.descripcion) {
+                                    <p class="text-sm mb-3 line-clamp-2" style="color: var(--color-text); opacity: 0.7">
+                                        {{ product.descripcion }}
+                                    </p>
+                                }
+                                
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold" style="color: var(--color-primary)">
+                                        {{ formatPrice(product.precio) }}
+                                    </span>
+                                    @if (product.categoria_id) {
+                                        <span class="text-xs font-medium px-2.5 py-0.5 rounded-full" style="background-color: var(--color-secondary); color: var(--color-text)">
+                                            {{ getCategoryName(product.categoria_id) }}
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            } @else {
+                <div class="text-center py-12">
+                    <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    <h3 class="mt-4 text-lg font-medium text-gray-900">
+                        @if (isFiltering) {
+                            No se encontraron productos
+                        } @else {
+                            No hay productos disponibles
+                        }
+                    </h3>
+                    <p class="mt-2 text-gray-600">
+                        @if (isFiltering) {
+                            Intenta cambiar los filtros de búsqueda
+                        } @else {
+                            Comienza agregando tu primer producto
+                        }
+                    </p>
+                    @if (!isFiltering) {
+                        <button
+                            (click)="onAddProduct()"
+                            class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+                            Agregar Producto
+                        </button>
+                    }
+                </div>
+            }
+        }
+    </div>
+
+<app-product-modal
+    [isOpen]="showProductModal()"
+    [mode]="productToEdit() ? 'edit' : 'create'"
+    [product]="productToEdit()"
+    (close)="onProductModalClose()"
+    (productCreated)="onProductCreated()"
+    (productUpdated)="onProductUpdated()">
+</app-product-modal>
+
+<app-confirmation-dialog
+    [isOpen]="showConfirmDialog()"
+    [title]="'Eliminar Producto'"
+    [message]="'¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.'"
+    [confirmButtonText]="'Eliminar'"
+    [cancelButtonText]="'Cancelar'"
+    (confirm)="onConfirmDelete()"
+    (cancel)="onCancelDelete()">
+</app-confirmation-dialog>
+</app-layout>

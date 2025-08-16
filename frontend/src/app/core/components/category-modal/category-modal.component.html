@@ -1,0 +1,79 @@
+@if (isOpen) {
+<div class="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-hidden z-50">
+        <div class="px-6 py-4 border-b bg-white border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-medium text-gray-900">{{ title }}</h3>
+            <button 
+                type="button" 
+                (click)="onClose()"
+                class="text-gray-400 hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="px-6 py-4 bg-white max-h-[calc(90vh-140px)] overflow-y-auto">
+            @if (loadingCategory()) {
+                <div class="flex justify-center items-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    <span class="ml-2 text-gray-700">Cargando datos de la categoría...</span>
+                </div>
+            } @else {
+                <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6">
+                    <!-- Nombre -->
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700">Nombre de la categoría</label>
+                        <input 
+                            type="text" 
+                            formControlName="nombre"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Nombre de la categoría"
+                        />
+                        <p class="text-red-600 text-xs" *ngIf="form.controls['nombre'].touched && form.controls['nombre'].invalid">
+                            <span *ngIf="form.controls['nombre'].errors?.['required']">El nombre es requerido.</span>
+                            <span *ngIf="form.controls['nombre'].errors?.['maxlength']">Máximo 100 caracteres.</span>
+                        </p>
+                    </div>
+
+                    @if (error()) {
+                        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                            {{ error() }}
+                        </div>
+                    }
+                </form>
+            }
+        </div>
+        
+        @if (!loadingCategory()) {
+            <div class="px-6 py-4 bg-white border-t border-gray-200 flex justify-end space-x-3">
+                <button 
+                    type="button"
+                    (click)="onClose()"
+                    class="px-4 py-2 border border-gray-300 text-sm font-medium text-gray-700 bg-white rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                    [disabled]="submitting()"
+                >
+                    Cancelar
+                </button>
+                <button 
+                    type="button"
+                    (click)="submit()"
+                    class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                    [disabled]="form.invalid || submitting()"
+                >
+                    @if (submitting()) {
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                        </svg>
+                        {{ mode === 'create' ? 'Creando...' : 'Actualizando...' }}
+                    } @else {
+                        {{ submitButtonText }}
+                    }
+                </button>
+            </div>
+        }
+    </div>
+</div>
+}

@@ -1,0 +1,49 @@
+# Entorno virtual
+.venv/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de configuración locales
+.env
+.env.*
+
+# Logs
+*.log
+
+# Compilados / build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.iml
+
+# Archivado de coverage / pruebas
+htmlcov/
+.coverage*
+.tox/
+.pytest_cache/
+
+# Alembic (si existiera versiones, mantener migrations si las usas)
+migrations/versions/__pycache__/
+
+# Subidas (mantener carpeta, ignorar contenido)
+uploads/*
+!uploads/.gitkeep
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Otros
+*.sqlite3
+instance/
+

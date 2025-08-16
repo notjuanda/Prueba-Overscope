@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #5c7fa3;
+  --color-secondary: #9bb8cf;
+  --color-accent: #e9f1f7;
+  --color-text: #2b3645;
+
+  --radius: 0.75rem;
+}
+
+html, body {
+  color: var(--color-text);
+  background: transparent;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial,
+    "Noto Sans", "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.btn {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+.btn:hover {
+  background-color: var(--color-secondary);
+}
+.btn:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-primary), white 20%);
+  outline-offset: 2px;
+}
+
+.card {
+  background-color: var(--color-accent);
+  border: 1px solid color-mix(in oklab, var(--color-text), white 80%);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 1px rgb(0 0 0 / 0.08);
+}
+
+.link {
+  color: var(--color-primary);
+  text-decoration: underline transparent;
+  text-underline-offset: 2px;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+.link:hover {
+  color: var(--color-secondary);
+  text-decoration-color: currentColor;
+}
+
+/* Navigation Links */
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  color: var(--color-text);
+  font-weight: 500;
+  transition: all 150ms ease;
+  text-decoration: none;
+}
+.nav-link:hover {
+  background-color: color-mix(in oklab, var(--color-primary), white 90%);
+  color: var(--color-primary);
+}
+.nav-link.active {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  color: var(--color-text);
+  font-weight: 500;
+  transition: all 150ms ease;
+  text-decoration: none;
+  margin: 0.25rem 0;
+}
+.mobile-nav-link:hover {
+  background-color: color-mix(in oklab, var(--color-primary), white 90%);
+  color: var(--color-primary);
+}
+.mobile-nav-link.active {
+  background-color: var(--color-primary);
+  color: white;
+}

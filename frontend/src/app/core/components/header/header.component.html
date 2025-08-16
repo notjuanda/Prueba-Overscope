@@ -1,0 +1,107 @@
+<header class="shadow-sm border-b" style="background-color: var(--color-accent); border-color: color-mix(in oklab, var(--color-text), white 80%)">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: var(--color-primary)">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m6 0v-3.87a3.37 3.37 0 00-.94-2.61c-.26-.26-.34-.51-.34-.76.83-1.2 2.48-1.2 3.31 0 0 .25-.08.5-.34.76A3.37 3.37 0 0012 17.13V21"/>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold" style="color: var(--color-text)">Admin Panel</h1>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-8">
+                <a 
+                    routerLink="/productos" 
+                    (click)="closeMenu()"
+                    [class]="isActive('/productos') ? 'nav-link active' : 'nav-link'"
+                >
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                    Productos
+                </a>
+                <a 
+                    routerLink="/categorias" 
+                    (click)="closeMenu()"
+                    [class]="isActive('/categorias') ? 'nav-link active' : 'nav-link'"
+                >
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    Categorías
+                </a>
+            </nav>
+
+            <!-- Desktop User Menu -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button 
+                    (click)="logout()"
+                    class="flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-200 hover:bg-red-50 text-red-600 hover:text-red-700"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                    <span class="text-sm font-medium">Cerrar Sesión</span>
+                </button>
+            </div>
+
+            <div class="md:hidden">
+                <button 
+                    (click)="toggleMenu()"
+                    class="p-2 rounded-lg transition-colors duration-200 hover:bg-gray-100"
+                    style="color: var(--color-text)"
+                >
+                    @if (!isMenuOpen()) {
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    } @else {
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    }
+                </button>
+            </div>
+        </div>
+
+        @if (isMenuOpen()) {
+            <div class="md:hidden border-t py-4" style="border-color: color-mix(in oklab, var(--color-text), white 80%)">
+                <nav class="flex flex-col space-y-2">
+                    <a 
+                        routerLink="/productos" 
+                        (click)="closeMenu()"
+                        [class]="isActive('/productos') ? 'mobile-nav-link active' : 'mobile-nav-link'"
+                    >
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                        Productos
+                    </a>
+                    <a 
+                        routerLink="/categorias" 
+                        (click)="closeMenu()"
+                        [class]="isActive('/categorias') ? 'mobile-nav-link active' : 'mobile-nav-link'"
+                    >
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                        Categorías
+                    </a>
+                    
+                    <div class="pt-4 mt-4 border-t" style="border-color: color-mix(in oklab, var(--color-text), white 80%)">
+                        <button 
+                            (click)="logout()"
+                            class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors duration-200 text-red-600 hover:bg-red-50"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            <span class="text-sm font-medium">Cerrar Sesión</span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        }
+    </div>
+</header>
