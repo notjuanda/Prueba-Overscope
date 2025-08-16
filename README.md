@@ -153,7 +153,7 @@ ejecutar al inciar: npm install
 
 Sistema de administración de productos y categorías desarrollado con Angular 20 que implementa arquitectura limpia con autenticación JWT.
 
-## 🚀 Características
+## Características
 
 - **Autenticación completa**: Login y registro de usuarios con JWT
 - **Gestión de productos**: CRUD completo
@@ -174,7 +174,7 @@ Sistema de administración de productos y categorías desarrollado con Angular 2
 - **Standalone Components**: Arquitectura moderna de Angular
 - **HTTP Client**: Comunicación con API REST
 
-## 📋 Prerrequisitos
+## Prerrequisitos
 
 Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
@@ -188,7 +188,7 @@ node --version
 npm --version
 ```
 
-## ⚙️ Instalación
+## Instalación
 
 1. **Clonar el repositorio** (si aplica):
 ```bash
@@ -210,7 +210,7 @@ export const environment = {
 };
 ```
 
-## 🚀 Ejecución del Proyecto
+## Ejecución del Proyecto
 
 ### Modo Desarrollo
 
@@ -234,7 +234,7 @@ ng build --configuration production
 
 Los archivos compilados se generarán en la carpeta `dist/`
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 src/
@@ -259,7 +259,7 @@ src/
 │   └── environments/           # Configuraciones de entorno
 ```
 
-## 🔐 Autenticación
+## Autenticación
 
 El sistema incluye:
 - **Registro de usuarios**: Formulario con validaciones
@@ -272,7 +272,7 @@ El sistema incluye:
 No hay datos de prueba, pero se puede registrar directo un usuario nuevo en la interfaz
 ```
 
-## 📱 Funcionalidades Principales
+## Funcionalidades Principales
 
 ### Gestión de Productos
 - ✅ Listar todos los productos en grid responsive
@@ -295,7 +295,7 @@ No hay datos de prueba, pero se puede registrar directo un usuario nuevo en la i
 - ✅ Estados activos en navegación
 - ✅ Logout desde header
 
-## 🛠️ Scripts Disponibles
+## 🛠Scripts Disponibles
 
 ```bash
 npm start          # Inicia servidor de desarrollo
@@ -303,7 +303,7 @@ npm start          # Inicia servidor de desarrollo
 Los demás scripts no hay necesidad de correrlos
 ```
 
-## 🌐 API Integration
+## API Integration
 
 El frontend se conecta a una API REST que debe implementar los siguientes endpoints:
 
