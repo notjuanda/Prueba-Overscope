@@ -60,8 +60,7 @@ source .venv/bin/activate  # Linux/Mac
 ```
 pip install -r requirements.txt
 ```
-4. Configurar `.env`.
-5. Run:
+4. Run:
 ```
 python -m flask run
 ```
